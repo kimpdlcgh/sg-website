@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - Safeguard Securities</title>
+  <link rel="stylesheet" href="wp-content/themes/hello-elementor/style.min-ver=2.5.0.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f6f8;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+    .dashboard-container {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 90%;
+    }
+    .dashboard-container h2 {
+      font-size: 26px;
+      color: #003366;
+      margin-bottom: 10px;
+    }
+    .dashboard-container p {
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+    .dashboard-container button {
+      background-color: #003366;
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .dashboard-container button:hover {
+      background-color: #00509e;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <h2>Welcome, <span id="username">User</span>!</h2>
+    <p>Email: <span id="email">loading...</span></p>
+    <button id="logout-button">Logout</button>
+  </div>
+
+  <script>
+    const supabase = supabase.createClient('https://qsrszjfjcvgfnggxypsk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzcnN6amZqY3ZnZm5nZ3h5cHNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcxNDU2NjQsImV4cCI6MjA2MjcyMTY2NH0.gyYb6S7RP3Oel8yRirbxvEacq4mdq8KNYZHVtWRjIFU');
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      const userId = session.user.id;
+
+      // Fetch profile data
+      const { data: profile, error } = await supabase
+        .from("profiles")
+        .select("username, email")
+        .eq("id", userId)
+        .single();
+
+      if (error) {
+        document.getElementById("username").textContent = "Unknown";
+        document.getElementById("email").textContent = "Error loading";
+      } else {
+        document.getElementById("username").textContent = profile.username;
+        document.getElementById("email").textContent = profile.email;
+      }
+    });
+
+    document.getElementById("logout-button").addEventListener("click", async () => {
+      await supabase.auth.signOut();
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>
