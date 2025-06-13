@@ -82,21 +82,25 @@ img.emoji {
 <style>
 @media (max-width: 1024px) {
   .hfe-nav-menu {
-    display: flex;
-    flex-wrap: nowrap; /* ✅ keep everything in one row */
-    justify-content: flex-start; /* ✅ shift nav to the left */
-    overflow-x: auto;  /* ✅ add horizontal scroll if items exceed width */
-    white-space: nowrap;
+    display: flex !important;
+    flex-wrap: nowrap !important;      /* Force single line */
+    justify-content: flex-start !important;
+    overflow-x: auto !important;       /* Scroll horizontally if too wide */
+    white-space: nowrap !important;
+    padding: 0;
     gap: 0;
   }
 
   .hfe-nav-menu > li {
-    flex: 0 0 auto;
-    white-space: nowrap;
-    padding: 0 10px;
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
   }
 }
 </style>
+
 
 </head>
 
