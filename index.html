@@ -83,17 +83,21 @@ img.emoji {
 @media (max-width: 1024px) {
   .hfe-nav-menu {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-  }
-  .hfe-nav-menu > li {
+    flex-wrap: nowrap; /* ✅ keep everything in one row */
+    justify-content: flex-start; /* ✅ shift nav to the left */
+    overflow-x: auto;  /* ✅ add horizontal scroll if items exceed width */
     white-space: nowrap;
-    flex: 1 0 auto;
-    text-align: center;
+    gap: 0;
+  }
+
+  .hfe-nav-menu > li {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 0 10px;
   }
 }
 </style>
+
 </head>
 
 <body data-rsssl=1 class="home page-template page-template-elementor_header_footer page page-id-88 wp-custom-logo ehf-header ehf-footer ehf-template-hello-elementor ehf-stylesheet-hello-elementor elementor-default elementor-template-full-width elementor-kit-8 elementor-page elementor-page-88">
